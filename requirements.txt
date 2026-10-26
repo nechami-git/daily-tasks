@@ -1,0 +1,6 @@
+# Pinned versions (==) so API and SDK runs are comparable.
+anthropic==2.3.0            # Messages API client (API/ version)
+claude-agent-sdk==0.2.174   # Claude Agent SDK (SDK/ version)
+requests==2.34.2            # Hebcal calendar calls (shared/)
+pytest==9.1.1               # offline tests (tests/)
+truststore==0.10.5          # use the Windows cert store (needed behind a filtering proxy)

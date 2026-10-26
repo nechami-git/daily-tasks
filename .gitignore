@@ -1,0 +1,25 @@
+# Secrets: ANTHROPIC_API_KEY comes only from the environment, never from files
+.env
+.env.*
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Runtime state (each run starts clean)
+shared/data/*
+!shared/data/.gitkeep
+.runs/
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

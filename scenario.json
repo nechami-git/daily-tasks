@@ -1,0 +1,155 @@
+{
+  "name": "Third-year student: assignment, exam prep around Shabbat, morning workouts",
+  "notes": [
+    "today is fixed via DAILY_TASKS_TODAY so both runs see identical calendar data.",
+    "2026-10-28 is a Wednesday: 'tomorrow' = Thu 10-29, Friday = 10-30, Shabbat = 10-31.",
+    "Hebcal, Jerusalem: candle lighting Fri 2026-10-30 16:11, havdalah Sat 2026-10-31 17:28.",
+    "Each session runs on a NEW agent instance; session 2 knows only what is on disk.",
+    "Checks run after the turn named in 'after' (default: end of scenario). Most check saved files."
+  ],
+  "today": "2026-10-28",
+  "sessions": [
+    {
+      "id": "s1",
+      "turns": [
+        {
+          "id": "s1-1",
+          "goal": "tool use: add two study tasks",
+          "prompt": "Add two study tasks for tomorrow: submit Assignment 3 for the AI Agents course at 10:00, two hours, high priority. And a review for the Statistics exam at 14:00, 90 minutes."
+        },
+        {
+          "id": "s1-2",
+          "goal": "save to memory: two lasting preferences",
+          "prompt": "Two things to remember long-term: workouts only in the morning, before 9:00. And no studying after 22:00."
+        },
+        {
+          "id": "s1-3",
+          "goal": "external tool: Hebcal decides what fits around Shabbat",
+          "prompt": "Schedule 3 hours of review for the Algorithms exam on Friday, and another 3 hours on Saturday."
+        },
+        {
+          "id": "s1-4",
+          "goal": "fixed confirmation: the agent books what it proposed in s1-3",
+          "prompt": "Yes, go ahead."
+        },
+        {
+          "id": "s1-5",
+          "goal": "tool use: find and complete a task that is not in today's context",
+          "prompt": "I already finished tomorrow's Statistics review, you can mark it as done."
+        }
+      ]
+    },
+    {
+      "id": "s2",
+      "turns": [
+        {
+          "id": "s2-1",
+          "goal": "retrieve from memory in a new session",
+          "prompt": "What's planned for me tomorrow, and what preferences did I save about workouts and studying?"
+        },
+        {
+          "id": "s2-2",
+          "goal": "request that contradicts a saved preference (morning workouts)",
+          "prompt": "Schedule a 30-minute home workout for me tomorrow at 20:00."
+        },
+        {
+          "id": "s2-3",
+          "goal": "user resolves the conflict as a one-time exception",
+          "prompt": "It's a one-time thing, I have exams this week. Schedule it at 20:00 anyway, without changing the preference."
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "assignment_saved",
+      "description": "Assignment saved for Thu 10:00, study, high priority, 120 min",
+      "type": "task_exists",
+      "match": {"category": "study", "date": "2026-10-29", "time": "10:00", "priority": "high", "duration_min": 120}
+    },
+    {
+      "id": "exam_prep_done",
+      "description": "Statistics review (Thu 14:00) is marked done",
+      "type": "task_exists",
+      "match": {"category": "study", "date": "2026-10-29", "time": "14:00", "status": "done"}
+    },
+    {
+      "id": "prefs_saved",
+      "description": "Both preferences saved to preferences.json with the right categories",
+      "type": "prefs_exist",
+      "match": [
+        {"category": "fitness", "text_any": ["morning", "9"]},
+        {"category": "study", "text_any": ["22"]}
+      ]
+    },
+    {
+      "id": "calendar_used",
+      "description": "get_jewish_calendar was called when planning Friday/Saturday",
+      "type": "tool_called",
+      "turn": "s1-3",
+      "tool": "get_jewish_calendar"
+    },
+    {
+      "id": "asked_before_booking",
+      "description": "After s1-3 (before the confirmation) no Algorithms task exists outside Friday: the Saturday replacement was not booked without asking",
+      "after": "s1-3",
+      "type": "task_absent",
+      "match": {"title_contains": "algo", "date_not": "2026-10-30"}
+    },
+    {
+      "id": "friday_prep_before_candles",
+      "description": "Friday has study time scheduled, and every Friday task ends by candle lighting (16:11)",
+      "type": "tasks_end_before",
+      "date": "2026-10-30",
+      "time": "16:11",
+      "min_tasks": {"category": "study"}
+    },
+    {
+      "id": "nothing_on_shabbat",
+      "description": "No task overlaps Shabbat (Fri 16:11 to Sat 17:28); a Saturday task without a time also fails",
+      "type": "no_tasks_between",
+      "start": "2026-10-30T16:11",
+      "end": "2026-10-31T17:28"
+    },
+    {
+      "id": "no_duplicates",
+      "description": "No two tasks share date, start time and category (the 'yes' turn must not re-book)",
+      "type": "no_duplicate_tasks",
+      "key": ["date", "time", "category"]
+    },
+    {
+      "id": "shabbat_explained",
+      "description": "The s1-3 answer tells the user why the Saturday part was not booked as asked",
+      "type": "reply_contains",
+      "turn": "s1-3",
+      "all_groups": [["Shabbat", "Sabbath", "havdalah", "candle lighting"]]
+    },
+    {
+      "id": "memory_recalled",
+      "description": "Session 2 answer mentions the morning rule and the 10:00 assignment",
+      "type": "reply_contains",
+      "turn": "s2-1",
+      "all_groups": [["morning", "9:00"], ["10:00"]]
+    },
+    {
+      "id": "conflict_not_silent",
+      "description": "After the 20:00 request, no evening workout was added yet (agent asked first)",
+      "after": "s2-2",
+      "type": "task_absent",
+      "match": {"category": "fitness", "date": "2026-10-29", "time": "20:00"}
+    },
+    {
+      "id": "exception_scheduled",
+      "description": "After the user confirmed a one-time exception, the Thu 20:00 workout exists",
+      "type": "task_exists",
+      "match": {"category": "fitness", "date": "2026-10-29", "time": "20:00", "duration_min": 30}
+    },
+    {
+      "id": "pref_unchanged",
+      "description": "The morning-workout preference is unchanged after the exception",
+      "type": "prefs_unchanged",
+      "since": "s1-5",
+      "category": "fitness"
+    }
+  ]
+}

@@ -1,0 +1,386 @@
+{
+  "version": "api",
+  "simulated": true,
+  "simulation_note": "SIMULATED RUN: no model was called. API/simulated_client.py returned scripted responses modelled on the real SDK run, while every harness file and every shared tool ran for real (including the Hebcal call). Token counts are estimates (characters / 4) with a simple prefix-cache model; cost is computed from those estimates. Token, cache and cost numbers are NOT comparable with the SDK's real numbers. Checks show that the harness handles the scripted behavior correctly, not how the model behaves. Compaction threshold lowered to 2400 so compaction runs once.",
+  "model": "none (simulated)",
+  "effort": "medium",
+  "compact_threshold": 2400,
+  "scenario": "Third-year student: assignment, exam prep around Shabbat, morning workouts",
+  "today": "2026-10-28",
+  "started": "2026-10-26T14:15:56",
+  "libraries": {
+    "anthropic": "2.3.0",
+    "requests": "2.34.2",
+    "truststore": "0.10.5"
+  },
+  "turns": [
+    {
+      "session": "s1",
+      "turn": "s1-1",
+      "prompt": "Add two study tasks for tomorrow: submit Assignment 3 for the AI Agents course at 10:00, two hours, high priority. And a review for the Statistics exam at 14:00, 90 minutes.",
+      "reply": "Added both for tomorrow (Thu 29 Oct):\n- #1 10:00-12:00 Submit Assignment 3 (AI Agents course), high priority\n- #2 14:00-15:30 Statistics exam review",
+      "input": 0,
+      "cache_read": 1363,
+      "cache_write": 1573,
+      "output": 414,
+      "model_calls": 2,
+      "tools": [
+        "add_task",
+        "add_task"
+      ],
+      "cost_usd": 0.016418,
+      "seconds": 0.06
+    },
+    {
+      "session": "s1",
+      "turn": "s1-2",
+      "prompt": "Two things to remember long-term: workouts only in the morning, before 9:00. And no studying after 22:00.",
+      "reply": "Saved both preferences: workouts only before 9:00, and no studying after 22:00.",
+      "input": 0,
+      "cache_read": 3281,
+      "cache_write": 303,
+      "output": 367,
+      "model_calls": 2,
+      "tools": [
+        "save_preference",
+        "save_preference"
+      ],
+      "cost_usd": 0.009511,
+      "seconds": 0.06
+    },
+    {
+      "session": "s1",
+      "turn": "s1-3",
+      "prompt": "Schedule 3 hours of review for the Algorithms exam on Friday, and another 3 hours on Saturday.",
+      "reply": "Booked Friday 09:00-12:00, which ends well before candle lighting at 16:11.\nSaturday is Shabbat until havdalah at 17:28, so I didn't book it. I can do Saturday night 18:00-21:00 (before your 22:00 cutoff) or Sunday. Which one?",
+      "input": 0,
+      "cache_read": 5989,
+      "cache_write": 353,
+      "output": 544,
+      "model_calls": 3,
+      "tools": [
+        "get_jewish_calendar",
+        "add_task"
+      ],
+      "cost_usd": 0.013843,
+      "seconds": 1.12
+    },
+    {
+      "session": "s1",
+      "turn": "s1-4",
+      "prompt": "Yes, go ahead.",
+      "reply": "Booked Saturday night 18:00-21:00, after havdalah and before 22:00.",
+      "input": 0,
+      "cache_read": 4589,
+      "cache_write": 249,
+      "output": 340,
+      "model_calls": 2,
+      "tools": [
+        "add_task"
+      ],
+      "cost_usd": 0.008963,
+      "seconds": 0.03
+    },
+    {
+      "session": "s1",
+      "turn": "s1-5",
+      "prompt": "I already finished tomorrow's Statistics review, you can mark it as done.",
+      "reply": "Marked #2 Statistics exam review as done.",
+      "input": 829,
+      "cache_read": 4249,
+      "cache_write": 341,
+      "output": 659,
+      "model_calls": 4,
+      "tools": [
+        "list_tasks",
+        "complete_task"
+      ],
+      "cost_usd": 0.019051,
+      "seconds": 0.04
+    },
+    {
+      "session": "s2",
+      "turn": "s2-1",
+      "prompt": "What's planned for me tomorrow, and what preferences did I save about workouts and studying?",
+      "reply": "Tomorrow (Thu 29 Oct): 10:00 Submit Assignment 3 (high priority); the 14:00 Statistics review is already done.\nPreferences: workouts only in the morning, before 9:00; no studying after 22:00.",
+      "input": 0,
+      "cache_read": 2643,
+      "cache_write": 195,
+      "output": 347,
+      "model_calls": 2,
+      "tools": [
+        "list_tasks"
+      ],
+      "cost_usd": 0.008444,
+      "seconds": 0.02
+    },
+    {
+      "session": "s2",
+      "turn": "s2-2",
+      "prompt": "Schedule a 30-minute home workout for me tomorrow at 20:00.",
+      "reply": "That conflicts with your saved preference: workouts only in the morning, before 9:00. Is 20:00 a one-time exception, or should I change the preference?",
+      "input": 0,
+      "cache_read": 1474,
+      "cache_write": 147,
+      "output": 178,
+      "model_calls": 1,
+      "tools": [],
+      "cost_usd": 0.00459,
+      "seconds": 0.0
+    },
+    {
+      "session": "s2",
+      "turn": "s2-3",
+      "prompt": "It's a one-time thing, I have exams this week. Schedule it at 20:00 anyway, without changing the preference.",
+      "reply": "Booked a one-time home workout tomorrow at 20:00. Your morning preference is unchanged. Good luck with the exams!",
+      "input": 0,
+      "cache_read": 3385,
+      "cache_write": 252,
+      "output": 347,
+      "model_calls": 2,
+      "tools": [
+        "add_task"
+      ],
+      "cost_usd": 0.008877,
+      "seconds": 0.05
+    }
+  ],
+  "totals": {
+    "input": 829,
+    "cache_read": 26973,
+    "cache_write": 3413,
+    "output": 3196,
+    "model_calls": 18,
+    "cost_usd": 0.089697,
+    "seconds": 1.38,
+    "cache_hit_pct": 86.4,
+    "tool_calls": 11
+  },
+  "checks": [
+    {
+      "id": "assignment_saved",
+      "description": "Assignment saved for Thu 10:00, study, high priority, 120 min",
+      "passed": true,
+      "detail": "#1 2026-10-29 10:00 120m study Submit Assignment 3 (AI Agents course)"
+    },
+    {
+      "id": "exam_prep_done",
+      "description": "Statistics review (Thu 14:00) is marked done",
+      "passed": true,
+      "detail": "#2 2026-10-29 14:00 90m study Statistics exam review"
+    },
+    {
+      "id": "prefs_saved",
+      "description": "Both preferences saved to preferences.json with the right categories",
+      "passed": true,
+      "detail": "2 prefs saved"
+    },
+    {
+      "id": "calendar_used",
+      "description": "get_jewish_calendar was called when planning Friday/Saturday",
+      "passed": true,
+      "detail": "tools: ['get_jewish_calendar', 'add_task']"
+    },
+    {
+      "id": "asked_before_booking",
+      "description": "After s1-3 (before the confirmation) no Algorithms task exists outside Friday: the Saturday replacement was not booked without asking",
+      "passed": true,
+      "detail": "no matching task"
+    },
+    {
+      "id": "friday_prep_before_candles",
+      "description": "Friday has study time scheduled, and every Friday task ends by candle lighting (16:11)",
+      "passed": true,
+      "detail": "1 task(s) that day; late: []"
+    },
+    {
+      "id": "nothing_on_shabbat",
+      "description": "No task overlaps Shabbat (Fri 16:11 to Sat 17:28); a Saturday task without a time also fails",
+      "passed": true,
+      "detail": "none overlap"
+    },
+    {
+      "id": "no_duplicates",
+      "description": "No two tasks share date, start time and category (the 'yes' turn must not re-book)",
+      "passed": true,
+      "detail": "5 unique tasks"
+    },
+    {
+      "id": "shabbat_explained",
+      "description": "The s1-3 answer tells the user why the Saturday part was not booked as asked",
+      "passed": true,
+      "detail": "all found"
+    },
+    {
+      "id": "memory_recalled",
+      "description": "Session 2 answer mentions the morning rule and the 10:00 assignment",
+      "passed": true,
+      "detail": "all found"
+    },
+    {
+      "id": "conflict_not_silent",
+      "description": "After the 20:00 request, no evening workout was added yet (agent asked first)",
+      "passed": true,
+      "detail": "no matching task"
+    },
+    {
+      "id": "exception_scheduled",
+      "description": "After the user confirmed a one-time exception, the Thu 20:00 workout exists",
+      "passed": true,
+      "detail": "#5 2026-10-29 20:00 30m fitness Home workout"
+    },
+    {
+      "id": "pref_unchanged",
+      "description": "The morning-workout preference is unchanged after the exception",
+      "passed": true,
+      "detail": "before=[(1, 'fitness', 'Workouts only in the morning, before 9:00')] after=[(1, 'fitness', 'Workouts only in the morning, before 9:00')]"
+    }
+  ],
+  "checks_passed": "13/13",
+  "loc": {
+    "per_part": {
+      "loop": {
+        "api": 26,
+        "sdk": 2,
+        "sdk_note": ""
+      },
+      "tools": {
+        "api": 26,
+        "sdk": 12,
+        "sdk_note": ""
+      },
+      "history": {
+        "api": 43,
+        "sdk": 2,
+        "sdk_note": ""
+      },
+      "memory": {
+        "api": 22,
+        "sdk": 7,
+        "sdk_note": ""
+      },
+      "context": {
+        "api": 24,
+        "sdk": 1,
+        "sdk_note": ""
+      },
+      "compaction": {
+        "api": 33,
+        "sdk": 0,
+        "sdk_note": "automatic"
+      },
+      "caching": {
+        "api": 14,
+        "sdk": 0,
+        "sdk_note": "automatic"
+      },
+      "tokens": {
+        "api": 44,
+        "sdk": 34,
+        "sdk_note": ""
+      }
+    },
+    "harness_total": {
+      "api": 232,
+      "sdk": 58
+    },
+    "api_files": {
+      "harness/caching.py": 14,
+      "harness/compaction.py": 33,
+      "harness/context.py": 24,
+      "harness/history.py": 43,
+      "harness/log.py": 2,
+      "harness/loop.py": 26,
+      "harness/memory.py": 22,
+      "harness/tokens.py": 44,
+      "harness/tools.py": 26,
+      "agent.py": 35,
+      "main.py": 92
+    },
+    "test_tools_not_counted": {
+      "API/simulated_client.py": 137
+    },
+    "sdk_files": {
+      "agent.py": 106,
+      "main.py": 123,
+      "tools.py": 17
+    },
+    "shared_files": {
+      "jewish_calendar.py": 76,
+      "preferences.py": 32,
+      "prompt.py": 36,
+      "registry.py": 61,
+      "storage.py": 42,
+      "tasks.py": 65
+    },
+    "counting_rule": "non-blank lines, excluding comments and docstrings; SDK per part = code lines marked '# replaces: <part>.py' (a marker on a def line counts the whole function)"
+  },
+  "final_state": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Submit Assignment 3 (AI Agents course)",
+        "category": "study",
+        "date": "2026-10-29",
+        "time": "10:00",
+        "duration_min": 120,
+        "priority": "high",
+        "status": "todo"
+      },
+      {
+        "id": 2,
+        "title": "Statistics exam review",
+        "category": "study",
+        "date": "2026-10-29",
+        "time": "14:00",
+        "duration_min": 90,
+        "priority": "medium",
+        "status": "done"
+      },
+      {
+        "id": 3,
+        "title": "Algorithms exam review",
+        "category": "study",
+        "date": "2026-10-30",
+        "time": "09:00",
+        "duration_min": 180,
+        "priority": "medium",
+        "status": "todo"
+      },
+      {
+        "id": 4,
+        "title": "Algorithms exam review (part 2)",
+        "category": "study",
+        "date": "2026-10-31",
+        "time": "18:00",
+        "duration_min": 180,
+        "priority": "medium",
+        "status": "todo"
+      },
+      {
+        "id": 5,
+        "title": "Home workout",
+        "category": "fitness",
+        "date": "2026-10-29",
+        "time": "20:00",
+        "duration_min": 30,
+        "priority": "medium",
+        "status": "todo"
+      }
+    ],
+    "preferences": [
+      {
+        "id": 1,
+        "text": "Workouts only in the morning, before 9:00",
+        "category": "fitness",
+        "saved_at": "2026-10-26T14:15:56"
+      },
+      {
+        "id": 2,
+        "text": "No studying after 22:00",
+        "category": "study",
+        "saved_at": "2026-10-26T14:15:57"
+      }
+    ]
+  }
+}
